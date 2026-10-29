@@ -32,7 +32,11 @@ const nextConfig: NextConfig = {
         headers: [
           { key: 'Content-Security-Policy', value: contentSecurityPolicy },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          // Google's docs require the looser policy when testing over http on localhost.
+          {
+            key: 'Referrer-Policy',
+            value: isDev ? 'no-referrer-when-downgrade' : 'strict-origin-when-cross-origin',
+          },
           // Google's sign-in popup needs to report back to this window.
           { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
         ],

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 import './globals.css';
 
@@ -15,9 +16,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body className={inter.className}>
         <header className="header">
-          <a className="wordmark" href="/login" aria-label="Moneystrait home">
+          <Link className="wordmark" href="/" aria-label="Moneystrait home">
             MONEY<span>STRAIT</span>
-          </a>
+          </Link>
         </header>
         <main className="main">{children}</main>
         <footer className="footer">© 2026 Halvern LLC. Moneystrait is not a bank.</footer>
