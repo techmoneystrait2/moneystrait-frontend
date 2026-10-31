@@ -9,7 +9,7 @@ import { UNAVAILABLE_SECTIONS } from '@/content/adminNav';
 import { api, type Customer, errorMessage } from '@/lib/api';
 
 interface Overview {
-  stats: Record<'customers' | 'newThisWeek' | 'passwordAccounts' | 'googleAccounts' | 'admins' | 'activeSessions', number>;
+  stats: Record<'applicationsInReview' | 'customers' | 'newThisWeek' | 'passwordAccounts' | 'googleAccounts' | 'admins' | 'activeSessions', number>;
   recentCustomers: Customer[];
 }
 
@@ -41,6 +41,14 @@ export default function AdminOverviewPage() {
         <p className="error" role="alert">
           {error}
         </p>
+      )}
+      {data && data.stats.applicationsInReview > 0 && (
+        <Link className="review-banner" href="/admin/applications">
+          <strong>
+            {data.stats.applicationsInReview} {data.stats.applicationsInReview === 1 ? 'application' : 'applications'} waiting for review
+          </strong>
+          <span>Review now →</span>
+        </Link>
       )}
       <dl className="stat-grid">
         {TILES.map(([key, label]) => (

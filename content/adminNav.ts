@@ -25,6 +25,7 @@ export interface AdminNavItem {
 
 export const ADMIN_NAV: AdminNavItem[] = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
+  { href: '/admin/applications', label: 'Applications', icon: ClipboardList },
   { href: '/admin/customers', label: 'Customers', icon: Users },
   { href: '/admin/admins', label: 'Admins', icon: UserCog },
   { href: '/admin/credentials', label: 'Login credentials', icon: KeyRound, superadminOnly: true },
@@ -33,7 +34,6 @@ export const ADMIN_NAV: AdminNavItem[] = [
 // Sections with no backend yet. Each shows "currently unavailable".
 export const UNAVAILABLE_SECTIONS: (AdminNavItem & { slug: string; text: string })[] = [
   { slug: 'leads', href: '/admin/leads', label: 'Leads', icon: Inbox, text: 'Talk to us requests and booked calls.' },
-  { slug: 'applications', href: '/admin/applications', label: 'Applications', icon: ClipboardList, text: 'Open an account applications and invitations.' },
   { slug: 'verification', href: '/admin/verification', label: 'ID checks', icon: BadgeCheck, text: 'Sumsub company and ID check statuses.' },
   { slug: 'payments', href: '/admin/payments', label: 'Payments', icon: Send, text: 'Customer payments and tracking.' },
   { slug: 'crypto', href: '/admin/crypto', label: 'Crypto', icon: Coins, text: 'Crypto trades and wallets.' },

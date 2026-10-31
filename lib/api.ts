@@ -21,10 +21,19 @@ export class ApiError extends Error {
   constructor(
     readonly status: number,
     message: string,
+    // The fields the server refused, when it refused the form.
+    readonly fields: string[] = [],
   ) {
     super(message);
   }
 }
+
+const FIELD_LABELS: Record<string, string> = {
+  name: 'Full name',
+  email: 'Email',
+  password: 'Password',
+  code: 'Code',
+};
 
 // Every call goes through /api on this origin; next.config.ts forwards it to the backend.
 export async function api<T>(path: string, body?: object, method = body ? 'POST' : 'GET'): Promise<T> {
@@ -35,10 +44,12 @@ export async function api<T>(path: string, body?: object, method = body ? 'POST'
   });
   if (res.status === 204) return undefined as T;
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new ApiError(res.status, data.error ?? 'Something went wrong. Try again.');
+  if (!res.ok) throw new ApiError(res.status, data.error ?? 'Something went wrong. Try again.', data.fields);
   return data as T;
 }
 
 export function errorMessage(err: unknown): string {
-  return err instanceof ApiError ? err.message : 'Something went wrong. Try again.';
+  if (!(err instanceof ApiError)) return 'Something went wrong. Try again.';
+  const labels = err.fields.map((field) => FIELD_LABELS[field]).filter(Boolean);
+  return labels.length ? `Check these: ${labels.join(', ')}.` : err.message;
 }

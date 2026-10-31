@@ -1,10 +1,11 @@
+import { Trash2 } from 'lucide-react';
 import type { Customer } from '@/lib/api';
 
 export function formatDate(value: string): string {
   return new Date(value).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
-export function CustomerTable({ customers }: { customers: Customer[] }) {
+export function CustomerTable({ customers, onDelete }: { customers: Customer[]; onDelete?: (customer: Customer) => void }) {
   if (customers.length === 0) return <p className="admin-empty">No customers found.</p>;
   return (
     <div className="table-wrap">
@@ -17,6 +18,7 @@ export function CustomerTable({ customers }: { customers: Customer[] }) {
             <th scope="col">Joined</th>
             <th scope="col">Last updated</th>
             <th scope="col">Customer ID</th>
+            {onDelete && <th scope="col">Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -32,6 +34,13 @@ export function CustomerTable({ customers }: { customers: Customer[] }) {
               <td data-label="Joined">{formatDate(customer.createdAt)}</td>
               <td data-label="Last updated">{formatDate(customer.updatedAt)}</td>
               <td data-label="Customer ID" className="wrap id-cell">{customer.id}</td>
+              {onDelete && (
+                <td data-label="Actions">
+                  <button className="danger-button" type="button" aria-label={`Delete ${customer.name}`} onClick={() => onDelete(customer)}>
+                    <Trash2 size={15} aria-hidden="true" /> Delete
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

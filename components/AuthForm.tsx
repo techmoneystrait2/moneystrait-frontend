@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type FormEvent, useState } from 'react';
 import { GoogleButton } from '@/components/GoogleButton';
-import { api, ApiError } from '@/lib/api';
+import { api, errorMessage } from '@/lib/api';
 
 const COPY = {
   login: {
@@ -41,7 +41,7 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
       await api(path, body);
       router.push('/account');
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Something went wrong. Try again.');
+      setError(errorMessage(err));
       setBusy(false);
     }
   }
@@ -92,9 +92,9 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
           )}
         </div>
         {mode === 'login' && (
-          <button className="text-button" type="button" onClick={() => setNotice('Password reset is currently unavailable.')}>
+          <Link className="forgot-link" href="/forgot-password">
             Forgot password?
-          </button>
+          </Link>
         )}
         <button className="button" type="submit" disabled={busy}>
           {copy.submit}

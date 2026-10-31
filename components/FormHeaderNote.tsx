@@ -6,7 +6,7 @@ import { ROUTES } from '@/content/site';
 
 export function FormHeaderNote() {
   const pathname = usePathname();
-  if (pathname === ROUTES.login || pathname === '/account') return null;
+  if (pathname === ROUTES.login) return null;
   return (
     <p className="form-note">
       {pathname === '/open-account' && <span className="secure">Secure application</span>}

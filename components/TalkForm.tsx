@@ -18,6 +18,18 @@ function Field({ label }: { label: string }) {
   );
 }
 
+function ListField({ label }: { label: string }) {
+  const id = label.toLowerCase().replaceAll(' ', '-');
+  return (
+    <div className="field">
+      <label htmlFor={id}>{label}</label>
+      <select id={id} defaultValue="">
+        <option value="">Choose</option>
+      </select>
+    </div>
+  );
+}
+
 // Everything here is switched off until the booking backend exists.
 export function TalkForm() {
   return (
@@ -34,7 +46,7 @@ export function TalkForm() {
           </legend>
           <div className="form-grid">
             <Field label="Full name" />
-            <Field label="Your role" />
+            <ListField label="Your role" />
             <Field label="Work email" />
             <Field label="Phone or WhatsApp" />
           </div>
@@ -46,9 +58,9 @@ export function TalkForm() {
           </legend>
           <div className="form-grid">
             <Field label="Company name" />
-            <Field label="Registered in" />
+            <ListField label="Registered in" />
             <Field label="Website or social page" />
-            <Field label="What your company does" />
+            <ListField label="What your company does" />
           </div>
         </fieldset>
 
@@ -65,8 +77,8 @@ export function TalkForm() {
             ))}
           </div>
           <div className="form-grid">
-            <Field label="Each month, about" />
-            <Field label="How you pay today" />
+            <ListField label="Each month, about" />
+            <ListField label="How you pay today" />
           </div>
         </fieldset>
 
