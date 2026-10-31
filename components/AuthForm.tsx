@@ -82,12 +82,12 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
             type="password"
             autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
             required
-            minLength={mode === 'signup' ? 12 : undefined}
+            minLength={mode === 'signup' ? 8 : undefined}
             aria-describedby={mode === 'signup' ? 'password-hint' : undefined}
           />
           {mode === 'signup' && (
             <p className="hint" id="password-hint">
-              At least 12 characters.
+              At least 8 characters.
             </p>
           )}
         </div>
