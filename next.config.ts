@@ -25,6 +25,19 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [{ source: '/api/:path*', destination: `${backendUrl}/api/:path*` }];
   },
+  async redirects() {
+    const moved: [string, string][] = [
+      ['/contact', '/talk-to-us'],
+      ['/get-your-rate', '/talk-to-us'],
+      ['/get-started', '/talk-to-us'],
+      ['/corridors', '/countries'],
+      ['/compliance', '/security'],
+      ['/stablecoins', '/crypto'],
+      ['/desk', '/otc-desk'],
+      ['/otc', '/otc-desk'],
+    ];
+    return moved.map(([source, destination]) => ({ source, destination, statusCode: 301 }));
+  },
   async headers() {
     return [
       {

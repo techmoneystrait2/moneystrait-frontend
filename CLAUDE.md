@@ -70,7 +70,7 @@ Use one CSS variable file (`--ms-navy` style) and only these colours.
 
 Owner-approved exception: "invoices" is banned only as something we offer. Copy saying customers don't need invoices stays: "No invoices needed", "No invoices after that", "Do I need an invoice for each payment?".
 
-Two clashes in the brief's copy are still open. Ask the owner rather than ship them: "Aani instant", and "Move money between them instantly" (keep only if moves are immediate in the app; otherwise "Move money between them in a few clicks.").
+Two clashes in the brief's copy are still open, so the site uses the safe wording until the owner decides: "UAEFTS, or Aani" and "Move money between them in a few clicks."
 
 ## Legal footer text (exact, word for word, in full and compact footers)
 
@@ -80,7 +80,7 @@ Moneystrait is a trading name of Halvern LLC, [registered address]. Moneystrait 
 
 ## CMS-driven licences
 
-- Hard-code no regulator names anywhere. Licence numbers appear only on `/licences`.
+- Hard-code no regulator names anywhere. Licence numbers appear only on `/licences`. Until a CMS exists, `content/licences.ts` holds the records; a row stays `published: false` until its number and evidence are real. Anything without a backend or real data shows "currently unavailable".
 - Each licence is a CMS record with a published switch: body, what it covers, number, held by, register name and address, published, last checked, evidence (internal only, never rendered).
 - Unpublishing removes that body at once from the trust strip, Security card, "Are you licensed?" answer, Crypto comparison and footer sentence.
 - Copy, questions, countries, coins, contacts, managers and the 150+ and 200+ figures also come from the CMS, with no deploy. The Crypto risk line is locked: "Crypto can lose some or all of its value and its price can swing sharply. It is not a bank deposit."

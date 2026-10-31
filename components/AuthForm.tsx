@@ -32,6 +32,7 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const router = useRouter();
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState('');
 
   async function send(path: string, body: object) {
     setBusy(true);
@@ -90,6 +91,11 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
             </p>
           )}
         </div>
+        {mode === 'login' && (
+          <button className="text-button" type="button" onClick={() => setNotice('Password reset is currently unavailable.')}>
+            Forgot password?
+          </button>
+        )}
         <button className="button" type="submit" disabled={busy}>
           {copy.submit}
         </button>
@@ -100,6 +106,16 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
         text={copy.google}
         onCredential={(credential) => void send('/auth/google', { credential })}
       />
+      {mode === 'login' && (
+        <button className="button secondary" type="button" onClick={() => setNotice('Passkey sign-in is currently unavailable.')}>
+          Log in with a passkey
+        </button>
+      )}
+      {notice && (
+        <p className="unavailable" role="status">
+          {notice}
+        </p>
+      )}
 
       <p className="switch">
         {copy.switchText} <Link href={copy.switchHref}>{copy.switchLabel}</Link>
