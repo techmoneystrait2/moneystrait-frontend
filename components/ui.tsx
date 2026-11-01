@@ -1,6 +1,7 @@
 import { Check, type LucideIcon, X } from 'lucide-react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { ChatButton } from '@/components/ChatButton';
 import { ROUTES } from '@/content/site';
 
 export function HeroButtons({
@@ -19,15 +20,13 @@ export function HeroButtons({
       <Link className="btn" href={primaryHref}>
         {primary}
       </Link>
-      <Link className="btn outline" href={ROUTES.chat}>
-        {chat}
-      </Link>
+      <ChatButton label={chat} />
       {children}
     </div>
   );
 }
 
-export function ClosingBand({ heading = 'Pay less on every payment abroad.', line = 'Tell us what you pay today, and we’ll offer you less.' }) {
+export function ClosingBand({ heading = 'Pay less on every payment abroad.', line = 'Tell us what you pay today, and we’ll offer you less.', button = 'Get your rate', href = ROUTES.rate }) {
   return (
     <section className="band">
       <div className="container band-inner">
@@ -36,12 +35,10 @@ export function ClosingBand({ heading = 'Pay less on every payment abroad.', lin
           <p>{line}</p>
         </div>
         <div className="actions">
-          <Link className="btn white" href={ROUTES.rate}>
-            Get your rate
+          <Link className="btn white" href={href}>
+            {button}
           </Link>
-          <Link className="btn on-navy" href={ROUTES.chat}>
-            Chat with us
-          </Link>
+          <ChatButton className="btn on-navy" />
         </div>
       </div>
     </section>

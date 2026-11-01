@@ -207,7 +207,7 @@ export default function HomePage() {
               </span>
               <h3>Moving $25,000 or more?</h3>
               <p>Your manager gives you one firm price for the full amount.</p>
-              <Link className="btn gold" href="/otc-desk">
+              <Link className="btn gold" href={ROUTES.deskRate}>
                 Talk to the desk
               </Link>
             </article>

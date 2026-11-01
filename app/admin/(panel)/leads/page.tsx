@@ -1,8 +1,8 @@
 'use client';
 
-import { Eye, Trash2 } from 'lucide-react';
+import { Eye, Search, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { type FormEvent, useCallback, useEffect, useState } from 'react';
 import { formatDate } from '@/components/CustomerTable';
 import { api, errorMessage } from '@/lib/api';
 import { type Lead, leadSender } from '@/lib/leads';
@@ -14,25 +14,18 @@ interface LeadPage {
   total: number;
 }
 
-type Filter = '' | 'customer' | 'visitor';
-
-const FILTERS: { value: Filter; label: string }[] = [
-  { value: '', label: 'All' },
-  { value: 'customer', label: 'Has an account' },
-  { value: 'visitor', label: 'Visitors' },
-];
-
 export default function AdminLeadsPage() {
-  const [filter, setFilter] = useState<Filter>('');
+  const [draft, setDraft] = useState('');
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [data, setData] = useState<LeadPage | null>(null);
   const [error, setError] = useState('');
 
   const load = useCallback(() => {
-    api<LeadPage>(`/admin/leads?${new URLSearchParams({ submittedBy: filter, page: String(page) })}`)
+    api<LeadPage>(`/admin/leads?${new URLSearchParams({ search, page: String(page) })}`)
       .then(setData)
       .catch((err) => setError(errorMessage(err)));
-  }, [filter, page]);
+  }, [search, page]);
 
   useEffect(load, [load]);
 
@@ -47,6 +40,12 @@ export default function AdminLeadsPage() {
     }
   }
 
+  function handleSearch(event: FormEvent) {
+    event.preventDefault();
+    setPage(1);
+    setSearch(draft.trim());
+  }
+
   return (
     <>
       <h1>Leads</h1>
@@ -56,21 +55,18 @@ export default function AdminLeadsPage() {
           {error}
         </p>
       )}
-      <div className="tabs" role="group" aria-label="Filter by sender">
-        {FILTERS.map((item) => (
-          <button
-            key={item.label}
-            type="button"
-            aria-pressed={filter === item.value}
-            onClick={() => {
-              setFilter(item.value);
-              setPage(1);
-            }}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
+      <form className="search admin-search" role="search" onSubmit={handleSearch}>
+        <label className="visually-hidden" htmlFor="lead-search">
+          Search leads
+        </label>
+        <span className="search-box">
+          <Search size={16} aria-hidden="true" />
+          <input id="lead-search" placeholder="Search by name or email" value={draft} maxLength={100} onChange={(event) => setDraft(event.target.value)} />
+        </span>
+        <button className="btn" type="submit">
+          Search
+        </button>
+      </form>
 
       {data && data.leads.length === 0 && <p className="admin-empty">No forms here.</p>}
       {data && data.leads.length > 0 && (

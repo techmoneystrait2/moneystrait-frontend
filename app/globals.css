@@ -3545,3 +3545,7 @@ input:disabled {
   position: absolute;
   left: -9999px;
 }
+
+.actions .unavailable {
+  flex-basis: 100%;
+}

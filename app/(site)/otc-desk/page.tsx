@@ -114,7 +114,7 @@ export default function OtcDeskPage() {
         </div>
       </section>
 
-      <ClosingBand heading="Talk to the desk." line="From $25,000. One firm price for the full amount." />
+      <ClosingBand heading="Talk to the desk." line="From $25,000. One firm price for the full amount." button="Talk to the desk" href={ROUTES.deskRate} />
       <SiteFooter />
     </>
   );
