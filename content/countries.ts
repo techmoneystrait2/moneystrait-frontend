@@ -22,3 +22,15 @@ export const POPULAR: PopularCountry[] = [
 ];
 
 export const REGIONS = ['Asia', 'Middle East', 'Africa', 'Europe', 'Americas', 'Oceania'];
+
+// Other names people search for.
+export const COUNTRY_ALIASES: Record<string, string> = {
+  AE: 'UAE Emirates Dubai',
+  GB: 'UK Britain England',
+  US: 'USA America',
+  TR: 'Türkiye Turkiye',
+  SA: 'KSA',
+  KR: 'Korea',
+  CZ: 'Czech Republic',
+  NL: 'Holland',
+};

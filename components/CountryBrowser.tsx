@@ -1,29 +1,130 @@
 'use client';
 
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { type FormEvent, type KeyboardEvent, useEffect, useMemo, useState } from 'react';
 import { Flag } from '@/components/Flag';
 import { Unavailable } from '@/components/ui';
 import { POPULAR, REGIONS } from '@/content/countries';
-import { useLiveCountries } from '@/lib/countries';
+import { type Country, searchCountries, useLiveCountries } from '@/lib/countries';
+
+const PICK_EVENT = 'country-pick';
+const HIGHLIGHT_MS = 2000;
+
+function highlight(id: string) {
+  const element = document.getElementById(id);
+  if (!element) return;
+  element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  element.classList.add('country-hit');
+  setTimeout(() => element.classList.remove('country-hit'), HIGHLIGHT_MS);
+}
 
 export function CountrySearch() {
+  const { countries, restricted, failed } = useLiveCountries();
+  const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+  const [message, setMessage] = useState('');
+
+  const results = useMemo(() => (countries && query.trim() ? searchCountries(countries, query).slice(0, 8) : []), [countries, query]);
+
+  function pick(country: Country) {
+    setQuery(country.name);
+    setOpen(false);
+    setMessage('');
+    // A popular country goes to its table row, and any other to its chip in the region tabs.
+    if (document.getElementById(`country-row-${country.code}`)) highlight(`country-row-${country.code}`);
+    else window.dispatchEvent(new CustomEvent<Country>(PICK_EVENT, { detail: country }));
+  }
+
+  function search() {
+    const words = query.trim();
+    if (!words) return;
+    const chosen = results[active];
+    if (chosen) {
+      pick(chosen);
+      return;
+    }
+    setOpen(false);
+    const blocked = restricted.find((place) => place.toLowerCase().includes(words.toLowerCase()));
+    setMessage(blocked ? `We can’t send money to ${blocked}. We follow US sanctions.` : `We don’t list “${words}” at the moment.`);
+  }
+
+  function handleKeys(event: KeyboardEvent) {
+    if (event.key === 'ArrowDown' && results.length > 0) {
+      event.preventDefault();
+      setOpen(true);
+      setActive((active + 1) % results.length);
+    } else if (event.key === 'ArrowUp' && results.length > 0) {
+      event.preventDefault();
+      setActive((active - 1 + results.length) % results.length);
+    } else if (event.key === 'Escape') {
+      setOpen(false);
+    }
+  }
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    search();
+  }
+
+  if (failed) return <Unavailable>Country search is currently unavailable.</Unavailable>;
+
+  const showList = open && results.length > 0;
   return (
-    <>
-      <fieldset disabled className="search form-off">
+    <div className="country-search">
+      <form className="search" role="search" onSubmit={handleSubmit}>
         <label className="visually-hidden" htmlFor="country-search">
           Find a country
         </label>
         <span className="search-box">
           <Search size={16} aria-hidden="true" />
-          <input id="country-search" placeholder="Find a country" />
+          <input
+            id="country-search"
+            role="combobox"
+            aria-expanded={showList}
+            aria-controls="country-results"
+            aria-autocomplete="list"
+            aria-activedescendant={showList ? `country-result-${active}` : undefined}
+            autoComplete="off"
+            placeholder="Find a country"
+            maxLength={100}
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setActive(0);
+              setOpen(true);
+              setMessage('');
+            }}
+            onKeyDown={handleKeys}
+            onBlur={() => setOpen(false)}
+          />
         </span>
-        <button className="btn" type="button">
+        <button className="btn" type="submit">
           Search
         </button>
-      </fieldset>
-      <Unavailable>Country search is currently unavailable.</Unavailable>
-    </>
+      </form>
+      {showList && (
+        <ul className="country-results" id="country-results" role="listbox" aria-label="Countries">
+          {results.map((country, index) => (
+            <li
+              key={country.code}
+              id={`country-result-${index}`}
+              role="option"
+              aria-selected={index === active}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => pick(country)}
+            >
+              <Flag code={country.code} /> {country.name} <small>{country.currency}</small>
+            </li>
+          ))}
+        </ul>
+      )}
+      {message && (
+        <p className="country-message" role="status">
+          {message}
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -48,7 +149,7 @@ export function PopularCountries() {
         </thead>
         <tbody>
           {shown.map((country) => (
-            <tr key={country.code}>
+            <tr key={country.code} id={`country-row-${country.code}`}>
               <td data-label="Country">
                 <span className="payee">
                   <Flag code={country.code} />
@@ -75,6 +176,17 @@ export function RegionTabs() {
   const [active, setActive] = useState(REGIONS[0]);
   const { countries, failed } = useLiveCountries();
   const shown = countries?.filter((country) => country.region === active) ?? [];
+
+  useEffect(() => {
+    function handlePick(event: Event) {
+      const { code, region } = (event as CustomEvent<Country>).detail;
+      setActive(region);
+      // After the tab has changed, so its chip exists.
+      setTimeout(() => highlight(`country-chip-${code}`));
+    }
+    window.addEventListener(PICK_EVENT, handlePick);
+    return () => window.removeEventListener(PICK_EVENT, handlePick);
+  }, []);
   return (
     <>
       <div className="tabs" role="tablist" aria-label="Regions">
@@ -105,7 +217,7 @@ export function RegionTabs() {
         {shown.length > 0 && (
           <ul className="country-chips">
             {shown.map((country) => (
-              <li key={country.code}>
+              <li key={country.code} id={`country-chip-${country.code}`}>
                 <Flag code={country.code} /> {country.name} <small>{country.currency}</small>
               </li>
             ))}
