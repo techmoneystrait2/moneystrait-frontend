@@ -70,14 +70,14 @@ export function SiteHeader() {
           <Link className="btn small header-rate" href={ROUTES.rate}>
             Get your rate
           </Link>
-          <button ref={menuButton} className="menu-button" type="button" aria-label="Open menu" onClick={() => setOpen(true)}>
+          <button ref={menuButton} className="menu-button" type="button" aria-label="Open menu" aria-expanded={open} aria-controls={open ? 'site-menu' : undefined} onClick={() => setOpen(true)}>
             <Menu size={20} aria-hidden="true" />
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="menu-sheet" role="dialog" aria-modal="true" aria-label="Menu" ref={sheet}>
+        <div className="menu-sheet" id="site-menu" role="dialog" aria-modal="true" aria-label="Menu" ref={sheet}>
           <div className="menu-top">
             {brand}
             <button className="menu-button" type="button" aria-label="Close menu" onClick={() => setOpen(false)}>
@@ -102,7 +102,7 @@ export function SiteHeader() {
             <Link className="btn outline" href={ROUTES.login} onClick={() => setOpen(false)}>
               Log in
             </Link>
-            <p>For registered businesses · Chat on WhatsApp or Telegram</p>
+            <p>For registered businesses</p>
           </div>
         </div>
       )}

@@ -1,7 +1,10 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 import { ROUTES } from '@/content/site';
+
+export const metadata: Metadata = { title: 'Page not found · Moneystrait' };
 
 export default function NotFound() {
   return (

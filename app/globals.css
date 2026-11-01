@@ -1121,6 +1121,16 @@ ol {
   margin-bottom: 16px;
 }
 
+/* Shares rows across the columns, so a taller picture keeps every step heading level. */
+@media (min-width: 761px) {
+  .three-steps > div {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+}
+
 .three-steps h3 {
   display: flex;
   align-items: center;
@@ -3478,4 +3488,12 @@ input:disabled {
 
 .customer-application {
   margin-bottom: 24px;
+}
+
+/* The long sample name gets the full width on a phone, with the status below it. */
+@media (max-width: 480px) {
+  .hero-cards .row-between {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 }

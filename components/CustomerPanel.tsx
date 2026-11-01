@@ -201,7 +201,7 @@ export function CustomerPanel({ user, answers, onLogOut }: { user: User; answers
 
       <div className="admin-body">
         <header className="admin-top">
-          <button className="admin-menu" type="button" aria-label="Open menu" onClick={() => setOpen(true)}>
+          <button className="admin-menu" type="button" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
             <Menu size={20} aria-hidden="true" />
           </button>
           <p>
