@@ -3475,3 +3475,7 @@ input:disabled {
     scroll-behavior: auto;
   }
 }
+
+.customer-application {
+  margin-bottom: 24px;
+}

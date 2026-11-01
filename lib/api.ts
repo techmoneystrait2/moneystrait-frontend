@@ -13,7 +13,7 @@ export interface Admin {
 }
 
 export interface Customer extends User {
-  signIn: 'Google' | 'Password' | 'None';
+  signIn: 'Google' | 'Google and password' | 'Password' | 'None';
   createdAt: string;
   updatedAt: string;
 }

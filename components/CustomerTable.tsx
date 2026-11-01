@@ -1,4 +1,5 @@
-import { Trash2 } from 'lucide-react';
+import { Eye, Trash2 } from 'lucide-react';
+import Link from 'next/link';
 import type { Customer } from '@/lib/api';
 
 export function formatDate(value: string): string {
@@ -18,7 +19,7 @@ export function CustomerTable({ customers, onDelete }: { customers: Customer[]; 
             <th scope="col">Joined</th>
             <th scope="col">Last updated</th>
             <th scope="col">Customer ID</th>
-            {onDelete && <th scope="col">Actions</th>}
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -34,13 +35,18 @@ export function CustomerTable({ customers, onDelete }: { customers: Customer[]; 
               <td data-label="Joined">{formatDate(customer.createdAt)}</td>
               <td data-label="Last updated">{formatDate(customer.updatedAt)}</td>
               <td data-label="Customer ID" className="wrap id-cell">{customer.id}</td>
-              {onDelete && (
-                <td data-label="Actions">
-                  <button className="danger-button" type="button" aria-label={`Delete ${customer.name}`} onClick={() => onDelete(customer)}>
-                    <Trash2 size={15} aria-hidden="true" /> Delete
-                  </button>
-                </td>
-              )}
+              <td data-label="Actions">
+                <div className="row-actions">
+                  <Link className="admin-logout" href={`/admin/customers/${customer.id}`} aria-label={`View ${customer.name}`}>
+                    <Eye size={15} aria-hidden="true" /> View
+                  </Link>
+                  {onDelete && (
+                    <button className="danger-button" type="button" aria-label={`Delete ${customer.name}`} onClick={() => onDelete(customer)}>
+                      <Trash2 size={15} aria-hidden="true" /> Delete
+                    </button>
+                  )}
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

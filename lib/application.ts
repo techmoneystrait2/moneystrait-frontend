@@ -104,6 +104,11 @@ export interface ApplicationDetail extends ApplicationSummary {
   rfis: AdminRfi[];
 }
 
+export interface CustomerApplication extends ApplicationSummary {
+  answers: Answers;
+  rfis: AdminRfi[];
+}
+
 export const STATUS_LABELS: Record<ApplicationStatus, string> = {
   in_review: 'In review',
   approved: 'Approved',

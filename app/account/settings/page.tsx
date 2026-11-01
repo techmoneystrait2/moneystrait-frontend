@@ -8,6 +8,7 @@ import { CoinMark, Wordmark } from '@/components/Brand';
 import { api, errorMessage, type User } from '@/lib/api';
 
 const PASSWORD_SAVED = 'Your password has been changed. Any other devices have been logged out.';
+const PASSWORD_SET = 'Your password has been set. You can now also log in with your email and this password. Any other devices have been logged out.';
 
 export default function AccountSettingsPage() {
   const router = useRouter();
@@ -57,9 +58,14 @@ export default function AccountSettingsPage() {
     setBusy(true);
     setPasswordMessage({ text: '', ok: false });
     try {
-      await api('/auth/password', { currentPassword: values.get('currentPassword'), password: values.get('password') });
+      if (user?.hasPassword) {
+        await api('/auth/password', { currentPassword: values.get('currentPassword'), password: values.get('password') });
+      } else {
+        await api('/auth/password/set', { password: values.get('password') });
+        setUser({ ...user!, hasPassword: true });
+      }
       form.reset();
-      setPasswordMessage({ text: PASSWORD_SAVED, ok: true });
+      setPasswordMessage({ text: user?.hasPassword ? PASSWORD_SAVED : PASSWORD_SET, ok: true });
     } catch (err) {
       setPasswordMessage({ text: errorMessage(err), ok: false });
     }
@@ -129,37 +135,35 @@ export default function AccountSettingsPage() {
             <h2 className="settings-heading" id="password-heading">
               Password
             </h2>
-            {user.hasPassword ? (
-              <form onSubmit={savePassword}>
-                {passwordMessage.text && (
-                  <p className={passwordMessage.ok ? 'success' : 'error'} role="status">
-                    {passwordMessage.text}
-                  </p>
-                )}
+            <form onSubmit={savePassword}>
+              {passwordMessage.text && (
+                <p className={passwordMessage.ok ? 'success' : 'error'} role="status">
+                  {passwordMessage.text}
+                </p>
+              )}
+              {user.hasPassword ? (
                 <div className="field">
                   <label htmlFor="currentPassword">Current password</label>
                   <input id="currentPassword" name="currentPassword" type="password" autoComplete="current-password" required />
                 </div>
-                <div className="field">
-                  <label htmlFor="password">New password</label>
-                  <input id="password" name="password" type="password" autoComplete="new-password" required minLength={8} aria-describedby="password-hint" />
-                  <p className="hint" id="password-hint">
-                    At least 8 characters.
-                  </p>
-                </div>
-                <div className="field">
-                  <label htmlFor="confirm">Repeat new password</label>
-                  <input id="confirm" name="confirm" type="password" autoComplete="new-password" required minLength={8} />
-                </div>
-                <button className="btn" type="submit" disabled={busy}>
-                  Change password
-                </button>
-              </form>
-            ) : (
-              <p>
-                You sign in with Google, so you don’t have a password here. To add one, use <Link href="/forgot-password">Forgot password</Link>, and we’ll email you a code.
-              </p>
-            )}
+              ) : (
+                <p className="lead">You sign in with Google. Set a password so you can also log in with your email if you can’t use your Google account.</p>
+              )}
+              <div className="field">
+                <label htmlFor="password">New password</label>
+                <input id="password" name="password" type="password" autoComplete="new-password" required minLength={8} aria-describedby="password-hint" />
+                <p className="hint" id="password-hint">
+                  At least 8 characters.
+                </p>
+              </div>
+              <div className="field">
+                <label htmlFor="confirm">Repeat new password</label>
+                <input id="confirm" name="confirm" type="password" autoComplete="new-password" required minLength={8} />
+              </div>
+              <button className="btn" type="submit" disabled={busy}>
+                {user.hasPassword ? 'Change password' : 'Set password'}
+              </button>
+            </form>
           </section>
         </div>
       </main>
