@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
+import { ChatButton } from '@/components/ChatButton';
 import { TalkForm } from '@/components/TalkForm';
-import { Unavailable } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Get your rate · Moneystrait',
@@ -34,7 +34,7 @@ export default function TalkToUsPage() {
         </article>
         <article className="box" id="chat">
           <h3>Rather chat now?</h3>
-          <Unavailable>WhatsApp and Telegram chat are currently unavailable.</Unavailable>
+          <ChatButton label="Chat on WhatsApp" className="btn outline wide" />
         </article>
       </aside>
     </div>
