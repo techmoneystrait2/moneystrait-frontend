@@ -1,10 +1,8 @@
 import { Ban, Globe, Landmark } from 'lucide-react';
 import type { Metadata } from 'next';
-import { CountrySearch, RegionTabs } from '@/components/CountryBrowser';
-import { Flag } from '@/components/Flag';
+import { CountrySearch, PopularCountries, RegionTabs } from '@/components/CountryBrowser';
 import { SiteFooter } from '@/components/SiteFooter';
 import { ClosingBand, IconTile, SectionHead, Ticks } from '@/components/ui';
-import { POPULAR } from '@/content/countries';
 
 export const metadata: Metadata = {
   title: 'Where we pay · Moneystrait',
@@ -46,38 +44,7 @@ export default function CountriesPage() {
       <section className="section">
         <div className="container">
           <SectionHead title="Popular for business payments" lead="Big trade routes, each paid through the country’s own payment system, in its own currency." />
-          <div className="table-wrap">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Country</th>
-                  <th scope="col">How we pay</th>
-                  <th scope="col">Typical time</th>
-                  <th scope="col">Details you need</th>
-                </tr>
-              </thead>
-              <tbody>
-                {POPULAR.map((country) => (
-                  <tr key={country.code}>
-                    <td data-label="Country">
-                      <span className="payee">
-                        <Flag code={country.code} />
-                        <span>
-                          <strong>{country.name}</strong>
-                          <small>{country.currency}</small>
-                        </span>
-                      </span>
-                    </td>
-                    <td data-label="How we pay">{country.method}</td>
-                    <td data-label="Typical time">
-                      <span className="pill teal">{country.time}</span>
-                    </td>
-                    <td data-label="Details you need">{country.details}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <PopularCountries />
           <p className="after-grid">Times start once your money has arrived and our checks are done. Local holidays and bank cut-off times can add a day.</p>
         </div>
       </section>

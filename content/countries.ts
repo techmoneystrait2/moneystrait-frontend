@@ -1,4 +1,4 @@
-// Seed data until the CMS and the partners' final list exist (brief 5.6).
+// How we pay the eight popular countries. Which countries are live comes from the backend.
 
 export interface PopularCountry {
   code: string;
@@ -22,22 +22,3 @@ export const POPULAR: PopularCountry[] = [
 ];
 
 export const REGIONS = ['Asia', 'Middle East', 'Africa', 'Europe', 'Americas', 'Oceania'];
-
-export const ASIA = [
-  { code: 'IN', name: 'India', currency: 'INR' },
-  { code: 'PK', name: 'Pakistan', currency: 'PKR' },
-  { code: 'BD', name: 'Bangladesh', currency: 'BDT' },
-  { code: 'PH', name: 'Philippines', currency: 'PHP' },
-  { code: 'CN', name: 'China', currency: 'CNY' },
-  { code: 'NP', name: 'Nepal', currency: 'NPR' },
-  { code: 'LK', name: 'Sri Lanka', currency: 'LKR' },
-  { code: 'VN', name: 'Vietnam', currency: 'VND' },
-  { code: 'ID', name: 'Indonesia', currency: 'IDR' },
-  { code: 'TH', name: 'Thailand', currency: 'THB' },
-  { code: 'MY', name: 'Malaysia', currency: 'MYR' },
-  { code: 'SG', name: 'Singapore', currency: 'SGD' },
-  { code: 'HK', name: 'Hong Kong', currency: 'HKD' },
-  { code: 'JP', name: 'Japan', currency: 'JPY' },
-  { code: 'KR', name: 'South Korea', currency: 'KRW' },
-  { code: 'UZ', name: 'Uzbekistan', currency: 'UZS' },
-];

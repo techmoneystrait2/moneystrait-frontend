@@ -28,6 +28,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { href: '/admin/applications', label: 'Applications', icon: ClipboardList },
   { href: '/admin/customers', label: 'Customers', icon: Users },
   { href: '/admin/leads', label: 'Leads', icon: Inbox },
+  { href: '/admin/countries', label: 'Countries', icon: Globe },
   { href: '/admin/admins', label: 'Admins', icon: UserCog },
   { href: '/admin/credentials', label: 'Login credentials', icon: KeyRound, superadminOnly: true },
 ];
@@ -38,7 +39,6 @@ export const UNAVAILABLE_SECTIONS: (AdminNavItem & { slug: string; text: string 
   { slug: 'payments', href: '/admin/payments', label: 'Payments', icon: Send, text: 'Customer payments and tracking.' },
   { slug: 'crypto', href: '/admin/crypto', label: 'Crypto', icon: Coins, text: 'Crypto trades and wallets.' },
   { slug: 'otc-desk', href: '/admin/otc-desk', label: 'OTC desk', icon: Handshake, text: 'Desk quotes and deals.' },
-  { slug: 'countries', href: '/admin/countries', label: 'Countries', icon: Globe, text: 'The country list and the restricted list.' },
   { slug: 'licences', href: '/admin/licences', label: 'Licences', icon: ShieldCheck, text: 'Licence records and the published switch.' },
   { slug: 'content', href: '/admin/content', label: 'Content', icon: FileText, text: 'Website copy, questions and legal pages.' },
   { slug: 'emails', href: '/admin/emails', label: 'Emails', icon: Mail, text: 'Email templates and sent messages.' },
