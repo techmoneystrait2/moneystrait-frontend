@@ -1,4 +1,4 @@
-import { Check, X } from 'lucide-react';
+import { Check, Trash2, X } from 'lucide-react';
 import { formatDate } from '@/components/CustomerTable';
 import type { AdminRfi } from '@/lib/application';
 
@@ -17,10 +17,12 @@ const DECISION = {
 interface Props {
   rfis: AdminRfi[];
   busy: boolean;
+  canEdit: boolean;
   onDecide: (rfi: AdminRfi, decision: 'accept' | 'reject') => void;
+  onDelete: (rfi: AdminRfi) => void;
 }
 
-export function RfiReview({ rfis, busy, onDecide }: Props) {
+export function RfiReview({ rfis, busy, canEdit, onDecide, onDelete }: Props) {
   if (rfis.length === 0) return null;
   return (
     <section className="box rfi-section" aria-labelledby="rfi-heading">
@@ -52,13 +54,20 @@ export function RfiReview({ rfis, busy, onDecide }: Props) {
             </div>
           ))}
 
-          {rfi.status === 'answered' && (
+          {canEdit && (
             <div className="actions rfi-actions">
-              <button className="btn small" type="button" disabled={busy} onClick={() => onDecide(rfi, 'accept')}>
-                <Check size={15} aria-hidden="true" /> Accept response
-              </button>
-              <button className="btn small outline danger" type="button" disabled={busy} onClick={() => onDecide(rfi, 'reject')}>
-                <X size={15} aria-hidden="true" /> Reject response
+              {rfi.status === 'answered' && (
+                <>
+                  <button className="btn small" type="button" disabled={busy} onClick={() => onDecide(rfi, 'accept')}>
+                    <Check size={15} aria-hidden="true" /> Accept response
+                  </button>
+                  <button className="btn small outline danger" type="button" disabled={busy} onClick={() => onDecide(rfi, 'reject')}>
+                    <X size={15} aria-hidden="true" /> Reject response
+                  </button>
+                </>
+              )}
+              <button className="btn small outline danger" type="button" disabled={busy} onClick={() => onDelete(rfi)}>
+                <Trash2 size={15} aria-hidden="true" /> Delete question
               </button>
             </div>
           )}

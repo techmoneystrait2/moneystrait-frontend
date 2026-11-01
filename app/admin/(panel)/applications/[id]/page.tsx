@@ -87,6 +87,20 @@ export default function AdminApplicationPage() {
     setBusy(false);
   }
 
+  async function deleteRfi(rfi: AdminRfi) {
+    const answers = rfi.responses.length > 0 ? ' Their answers are erased too.' : '';
+    if (!window.confirm(`Delete this question? The customer will no longer see it.${answers} This can’t be undone.`)) return;
+    setBusy(true);
+    setError('');
+    try {
+      await api(`/admin/applications/${id}/rfis/${rfi.id}`, undefined, 'DELETE');
+    } catch (err) {
+      setError(errorMessage(err));
+    }
+    load();
+    setBusy(false);
+  }
+
   async function decide(action: 'approve' | 'reject') {
     if (!application) return;
     const question =
@@ -171,7 +185,7 @@ export default function AdminApplicationPage() {
               <article className="box">
                 <ApplicationAnswers answers={application.answers} />
               </article>
-              <RfiReview rfis={application.rfis} busy={busy} onDecide={decideRfi} />
+              <RfiReview rfis={application.rfis} busy={busy} canEdit={application.status === 'in_review'} onDecide={decideRfi} onDelete={deleteRfi} />
             </div>
             <aside className="side-panel">
               <article className="box">
