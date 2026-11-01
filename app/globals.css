@@ -3497,3 +3497,51 @@ input:disabled {
     gap: 8px;
   }
 }
+
+/* Talk to us choices */
+.option-chips,
+.channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.option-chips button,
+.channels button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ms-navy);
+  cursor: pointer;
+  background: var(--ms-white);
+  border: 1px solid var(--ms-line-strong);
+  border-radius: 10px;
+}
+
+.option-chips button[aria-pressed='true'],
+.channels button[aria-pressed='true'] {
+  color: var(--ms-white);
+  background: var(--ms-navy);
+  border-color: var(--ms-navy);
+}
+
+.talk-form .lead + .btn {
+  margin-top: 12px;
+}
+
+.talk-privacy {
+  margin: 12px 0 0;
+  font-size: 14px;
+}
+
+/* Hidden from people, so only bots fill it in. */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+}

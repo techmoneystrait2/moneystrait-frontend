@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import { TalkForm } from '@/components/TalkForm';
-import { Unavailable } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Get your rate · Moneystrait',
-  description: 'Tell us how you pay today and book a 15-minute call. We’ll offer you a lower rate, in writing.',
+  description: 'Tell us how you pay today and we’ll arrange a 15-minute call. We’ll offer you a lower rate, in writing.',
 };
 
 const NEXT_STEPS = [
@@ -34,7 +33,7 @@ export default function TalkToUsPage() {
         </article>
         <article className="box" id="chat">
           <h3>Rather chat now?</h3>
-          <Unavailable>WhatsApp and Telegram chat are currently unavailable.</Unavailable>
+          <p>Choose WhatsApp or Telegram in the form, and your manager will message you there.</p>
         </article>
       </aside>
     </div>
