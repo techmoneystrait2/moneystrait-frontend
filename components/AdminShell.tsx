@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { CoinMark, Wordmark } from '@/components/Brand';
 import { ADMIN_NAV, UNAVAILABLE_SECTIONS } from '@/content/adminNav';
-import { type Admin, api } from '@/lib/api';
+import { type Admin, api, ApiError } from '@/lib/api';
 
 interface AdminContextValue {
   admin: Admin;
@@ -30,11 +30,16 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [admin, setAdmin] = useState<Admin | null>(null);
   const [open, setOpen] = useState(false);
+  const [failed, setFailed] = useState(false);
 
+  // Only a refused session goes to the login. A lost connection keeps the admin logged in.
   useEffect(() => {
     api<{ admin: Admin }>('/admin/me')
       .then((data) => setAdmin(data.admin))
-      .catch(() => router.replace('/admin/login'));
+      .catch((err) => {
+        if (err instanceof ApiError && err.status === 401) router.replace('/admin/login');
+        else setFailed(true);
+      });
   }, [router]);
 
   const logOut = useCallback(async () => {
@@ -42,7 +47,13 @@ export function AdminShell({ children }: { children: ReactNode }) {
     router.replace('/admin/login');
   }, [router]);
 
-  if (!admin) return null;
+  if (!admin) {
+    return failed ? (
+      <p className="error" role="alert">
+        We can’t reach Moneystrait. Check your connection and reload the page.
+      </p>
+    ) : null;
+  }
 
   const links = ADMIN_NAV.filter((item) => !item.superadminOnly || admin.role === 'superadmin');
   const navLink = (item: (typeof ADMIN_NAV)[number]) => (

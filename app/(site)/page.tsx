@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { HomeRiver } from '@/components/Brand';
 import { Flag } from '@/components/Flag';
 import { SiteFooter } from '@/components/SiteFooter';
+import { ChatButton } from '@/components/ChatButton';
 import { ClosingBand, HeroButtons, IconTile, SectionHead, Ticks } from '@/components/ui';
 import { publishedBodies } from '@/content/licences';
 import { ROUTES } from '@/content/site';
@@ -207,7 +208,7 @@ export default function HomePage() {
               </span>
               <h3>Moving $25,000 or more?</h3>
               <p>Your manager gives you one firm price for the full amount.</p>
-              <Link className="btn gold" href={ROUTES.deskRate}>
+              <Link className="btn gold" href={ROUTES.rate}>
                 Talk to the desk
               </Link>
             </article>
@@ -344,7 +345,7 @@ export default function HomePage() {
           <div>
             <h2>Questions</h2>
             <p>
-              Something else? <Link href={ROUTES.chat}>Chat with us.</Link>
+              Something else? <ChatButton label="Chat with us." className="text-button inline chat-link" notice="Chat with us is currently unavailable." />
             </p>
           </div>
           <div className="faq-list">

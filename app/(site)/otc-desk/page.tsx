@@ -32,7 +32,7 @@ export default function OtcDeskPage() {
                 <dd>Named, for your company</dd>
               </div>
             </dl>
-            <HeroButtons primary="Talk to the desk" primaryHref={ROUTES.deskRate} chat="Chat on WhatsApp" />
+            <HeroButtons primary="Talk to the desk" primaryHref={ROUTES.rate} chat="Chat on WhatsApp" />
           </div>
           <div className="picture-card chat" aria-hidden="true">
             <div className="row-between chat-head">
@@ -114,7 +114,7 @@ export default function OtcDeskPage() {
         </div>
       </section>
 
-      <ClosingBand heading="Talk to the desk." line="From $25,000. One firm price for the full amount." button="Talk to the desk" href={ROUTES.deskRate} />
+      <ClosingBand heading="Talk to the desk." line="From $25,000. One firm price for the full amount." button="Talk to the desk" href={ROUTES.rate} />
       <SiteFooter />
     </>
   );

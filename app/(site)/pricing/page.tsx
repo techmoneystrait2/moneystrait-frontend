@@ -78,7 +78,7 @@ export default function PricingPage() {
               <p className="eyebrow gold">Large amounts</p>
               <h2>From $25,000, your manager quotes one firm price for the full amount.</h2>
             </div>
-            <Link className="btn gold" href={ROUTES.deskRate}>
+            <Link className="btn gold" href={ROUTES.rate}>
               Talk to the desk
             </Link>
           </div>

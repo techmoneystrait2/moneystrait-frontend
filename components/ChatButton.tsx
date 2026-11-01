@@ -2,8 +2,14 @@
 
 import { useState } from 'react';
 
+interface ChatButtonProps {
+  label?: string;
+  className?: string;
+  notice?: string;
+}
+
 // Chat isn't connected yet, so every chat button only says so.
-export function ChatButton({ label = 'Chat with us', className = 'btn outline' }: { label?: string; className?: string }) {
+export function ChatButton({ label = 'Chat with us', className = 'btn outline', notice = `${label} is currently unavailable.` }: ChatButtonProps) {
   const [clicked, setClicked] = useState(false);
   return (
     <>
@@ -11,9 +17,9 @@ export function ChatButton({ label = 'Chat with us', className = 'btn outline' }
         {label}
       </button>
       {clicked && (
-        <p className="unavailable" role="status">
-          {label} is currently unavailable.
-        </p>
+        <span className="unavailable" role="status">
+          {notice}
+        </span>
       )}
     </>
   );

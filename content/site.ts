@@ -1,9 +1,7 @@
 export const ROUTES = {
   rate: '/talk-to-us',
-  chat: '/talk-to-us#chat',
   login: '/login',
   signup: '/signup',
-  deskRate: '/talk-to-us?topic=desk',
 };
 
 export const UNAVAILABLE = 'Currently unavailable';

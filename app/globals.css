@@ -3549,3 +3549,12 @@ input:disabled {
 .actions .unavailable {
   flex-basis: 100%;
 }
+
+span.unavailable {
+  display: block;
+}
+
+.chat-link {
+  font-size: inherit;
+  text-decoration: underline;
+}

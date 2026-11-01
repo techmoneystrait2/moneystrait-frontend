@@ -9,8 +9,6 @@ import { LEAD_FIELD_LABELS, type LeadOptions } from '@/lib/leads';
 
 const CHANNEL_ICONS: Record<string, typeof Phone> = { 'Phone call': Phone, WhatsApp: MessageCircle, Telegram: Send };
 
-const TOPICS: Record<string, string> = { desk: 'Deals over $25,000', crypto: 'Buy or sell crypto' };
-
 const EMPTY = {
   name: '',
   role: '',
@@ -43,11 +41,7 @@ export function TalkForm() {
 
   useEffect(() => {
     api<{ options: LeadOptions }>('/leads/options')
-      .then((data) => {
-        setOptions(data.options);
-        const topic = TOPICS[new URLSearchParams(window.location.search).get('topic') ?? ''];
-        if (topic) setUses([topic]);
-      })
+      .then((data) => setOptions(data.options))
       .catch(() => setFailed(true));
     // A logged-in customer doesn't type their name and email again.
     api<{ user: User }>('/auth/me')
