@@ -103,6 +103,8 @@ export default function AdminApplicationsPage() {
                   <td data-label="Submitted">{formatDate(application.submittedAt)}</td>
                   <td data-label="Status">
                     <span className={`pill ${STATUS_TONES[application.status]}`}>{STATUS_LABELS[application.status]}</span>
+                    {application.status === 'in_review' && application.rfisToReview > 0 && <small className="block rfi-flag">RFI response to review</small>}
+                    {application.status === 'in_review' && application.rfisToReview === 0 && application.rfisWaiting > 0 && <small className="block muted">Waiting for customer</small>}
                   </td>
                   <td data-label="Action">
                     <div className="row-actions">

@@ -8,6 +8,7 @@ import { ApplicationAnswers } from '@/components/ApplicationAnswers';
 import { ApplicationForm } from '@/components/ApplicationForm';
 import { CoinMark, Wordmark } from '@/components/Brand';
 import { CustomerPanel } from '@/components/CustomerPanel';
+import { RfiAnswers } from '@/components/RfiAnswers';
 import { api, type User } from '@/lib/api';
 import { emptyAnswers, type MyApplication, reapplyAnswers } from '@/lib/application';
 
@@ -93,6 +94,7 @@ export default function AccountPage() {
               <p className="lead">Thank you. We’re checking your application. This page will update when it’s approved.</p>
               <span className="pill blue">In review</span>
             </article>
+            <RfiAnswers rfis={application.rfis} onSent={load} />
             <article className="box">
               <h2>What you sent us</h2>
               <ApplicationAnswers answers={application.answers} />

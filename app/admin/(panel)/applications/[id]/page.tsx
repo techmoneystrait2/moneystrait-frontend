@@ -1,19 +1,21 @@
 'use client';
 
-import { Check, RotateCcw, Trash2, X } from 'lucide-react';
+import { Check, MessageSquarePlus, RotateCcw, Trash2, X } from 'lucide-react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { ApplicationAnswers } from '@/components/ApplicationAnswers';
 import { formatDate } from '@/components/CustomerTable';
+import { RfiReview } from '@/components/RfiReview';
 import { KeyValues, Unavailable } from '@/components/ui';
 import { deleteForever, sendBackToReview } from '@/lib/adminApplications';
 import { api, errorMessage } from '@/lib/api';
-import { type ApplicationDetail, STATUS_LABELS, STATUS_TONES } from '@/lib/application';
+import { type AdminRfi, type ApplicationDetail, STATUS_LABELS, STATUS_TONES } from '@/lib/application';
 
 export default function AdminApplicationPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const sent = useSearchParams().get('rfi');
   const [application, setApplication] = useState<ApplicationDetail | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -68,6 +70,23 @@ export default function AdminApplicationPage() {
     setBusy(false);
   }
 
+  async function decideRfi(rfi: AdminRfi, decision: 'accept' | 'reject') {
+    const question =
+      decision === 'accept'
+        ? 'Accept this response?'
+        : 'Reject this response? The customer is asked the same question again, without a reason.';
+    if (!window.confirm(question)) return;
+    setBusy(true);
+    setError('');
+    try {
+      await api(`/admin/applications/${id}/rfis/${rfi.id}/${decision}`, {});
+    } catch (err) {
+      setError(errorMessage(err));
+    }
+    load();
+    setBusy(false);
+  }
+
   async function decide(action: 'approve' | 'reject') {
     if (!application) return;
     const question =
@@ -96,6 +115,16 @@ export default function AdminApplicationPage() {
           {error}
         </p>
       )}
+      {sent === 'emailed' && (
+        <p className="success" role="status">
+          Your question has been sent, and the customer has been emailed.
+        </p>
+      )}
+      {sent === 'not-emailed' && (
+        <p className="error" role="status">
+          Your question is in the customer’s account, but the email could not be sent. Check the email settings.
+        </p>
+      )}
       {application && (
         <>
           <div className="admin-head review-head">
@@ -119,6 +148,9 @@ export default function AdminApplicationPage() {
               <div className="actions">
                 {application.status === 'in_review' && (
                   <>
+                    <Link className="btn outline" href={`/admin/applications/${id}/rfi`}>
+                      <MessageSquarePlus size={16} aria-hidden="true" /> Request information
+                    </Link>
                     <button className="btn" type="button" disabled={busy} onClick={() => decide('approve')}>
                       <Check size={16} aria-hidden="true" /> Approve
                     </button>
@@ -135,9 +167,12 @@ export default function AdminApplicationPage() {
           </div>
 
           <div className="portal-grid review-grid">
-            <article className="box">
-              <ApplicationAnswers answers={application.answers} />
-            </article>
+            <div>
+              <article className="box">
+                <ApplicationAnswers answers={application.answers} />
+              </article>
+              <RfiReview rfis={application.rfis} busy={busy} onDecide={decideRfi} />
+            </div>
             <aside className="side-panel">
               <article className="box">
                 <h3>Customer</h3>

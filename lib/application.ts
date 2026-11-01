@@ -46,11 +46,40 @@ export interface Answers {
   declarations: { trueAndComplete: boolean; actsForItself: boolean; agreesToTerms: boolean };
 }
 
+export type RfiStatus = 'waiting' | 'answered' | 'accepted';
+
+export interface CustomerRfi {
+  id: string;
+  question: string;
+  status: RfiStatus;
+  askedAt: string;
+  answer?: string;
+  askedAgain: boolean;
+}
+
+export interface RfiResponse {
+  answer: string;
+  answeredAt: string;
+  decision: 'pending' | 'accepted' | 'rejected';
+  decidedBy?: string;
+  decidedAt?: string;
+}
+
+export interface AdminRfi {
+  id: string;
+  question: string;
+  status: RfiStatus;
+  askedBy: string;
+  askedAt: string;
+  responses: RfiResponse[];
+}
+
 export interface MyApplication {
   id: string;
   status: ApplicationStatus;
   answers: Answers;
   reviewedAt?: string;
+  rfis: CustomerRfi[];
 }
 
 export interface ApplicationSummary {
@@ -65,11 +94,14 @@ export interface ApplicationSummary {
   reviewedBy?: string;
   removedAt?: string;
   removedBy?: string;
+  rfisWaiting: number;
+  rfisToReview: number;
 }
 
 export interface ApplicationDetail extends ApplicationSummary {
   answers: Answers;
   attempts: number;
+  rfis: AdminRfi[];
 }
 
 export const STATUS_LABELS: Record<ApplicationStatus, string> = {

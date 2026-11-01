@@ -2327,6 +2327,87 @@ fieldset.form-off button {
   color: var(--ms-warn);
 }
 
+/* Requests for information */
+textarea {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--ms-ink);
+  resize: vertical;
+  background: var(--ms-white);
+  border: 1px solid var(--ms-line-strong);
+  border-radius: 10px;
+}
+
+.rfi-section {
+  margin-top: 16px;
+}
+
+.status-page .rfi-section {
+  margin-top: 0;
+}
+
+.box.rfi-section h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  letter-spacing: -0.015em;
+}
+
+.box p.rfi-intro {
+  margin-bottom: 8px;
+}
+
+.rfi-item {
+  padding: 16px 0;
+}
+
+.rfi-item + .rfi-item {
+  border-top: 1px solid var(--ms-rule-2);
+}
+
+.rfi-item h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.box p.rfi-question {
+  margin: 8px 0 4px;
+  font-weight: 600;
+  color: var(--ms-navy);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.box p.rfi-answer {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.rfi-response {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--ms-tint);
+  border-radius: 10px;
+}
+
+.box .rfi-response p {
+  margin: 8px 0 4px;
+  color: var(--ms-ink);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.rfi-actions {
+  margin-top: 12px;
+}
+
+.rfi-flag {
+  margin-top: 4px;
+  font-weight: 600;
+  color: var(--ms-blue);
+}
+
 /* Customer application */
 .pill.warn {
   color: var(--ms-warn);
