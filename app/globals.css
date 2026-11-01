@@ -2591,6 +2591,28 @@ textarea {
   border-right: 1px solid var(--ms-rule);
 }
 
+a.admin-logout {
+  text-decoration: none;
+}
+
+.settings-title {
+  font-size: 31px;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.box h2.settings-heading {
+  margin: 0 0 12px;
+  font-size: 20px;
+  letter-spacing: -0.015em;
+}
+
+input:disabled {
+  color: var(--ms-slate);
+  background: var(--ms-tint);
+}
+
+.portal .admin-side nav a,
 .portal .admin-side nav button {
   display: flex;
   align-items: center;
@@ -2609,6 +2631,7 @@ textarea {
   cursor: pointer;
 }
 
+.portal .admin-side nav a:hover,
 .portal .admin-side nav button:hover {
   background: var(--ms-tint);
 }
@@ -3084,6 +3107,11 @@ textarea {
 
   .admin-logout {
     padding: 0 10px;
+  }
+
+  .account-name,
+  .portal .admin-top p {
+    display: none;
   }
 }
 

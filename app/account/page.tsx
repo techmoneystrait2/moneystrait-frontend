@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, LogOut, XCircle } from 'lucide-react';
+import { Clock, LogOut, Settings, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -69,6 +69,9 @@ export default function AccountPage() {
           </Link>
           <div className="header-actions">
             <span className="account-name">{user.name}</span>
+            <Link className="admin-logout" href="/account/settings">
+              <Settings size={16} aria-hidden="true" /> Settings
+            </Link>
             <button className="admin-logout" type="button" onClick={logOut}>
               <LogOut size={16} aria-hidden="true" /> Log out
             </button>

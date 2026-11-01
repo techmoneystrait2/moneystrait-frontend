@@ -19,6 +19,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 import { ApplicationAnswers } from '@/components/ApplicationAnswers';
 import { CoinMark, Wordmark } from '@/components/Brand';
@@ -40,7 +41,6 @@ const MORE: { label: string; icon: LucideIcon }[] = [
   { label: 'Your application', icon: CircleCheck },
   { label: 'Your companies', icon: Building2 },
   { label: 'Team and approvals', icon: Users },
-  { label: 'Settings', icon: Settings },
 ];
 
 const ACTIONS: { label: string; icon: LucideIcon }[] = [
@@ -193,6 +193,9 @@ export function CustomerPanel({ user, answers, onLogOut }: { user: User; answers
           {MAIN.map(link)}
           <hr />
           {MORE.map(link)}
+          <Link href="/account/settings">
+            <Settings size={18} strokeWidth={1.75} aria-hidden="true" /> Settings
+          </Link>
         </nav>
       </aside>
 
@@ -204,6 +207,9 @@ export function CustomerPanel({ user, answers, onLogOut }: { user: User; answers
           <p>
             <strong>{user.name}</strong>
           </p>
+          <Link className="admin-logout" href="/account/settings">
+            <Settings size={16} aria-hidden="true" /> Settings
+          </Link>
           <button className="admin-logout" type="button" onClick={onLogOut}>
             <LogOut size={16} aria-hidden="true" /> Log out
           </button>

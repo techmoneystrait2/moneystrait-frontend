@@ -2,6 +2,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  hasPassword?: boolean;
 }
 
 export interface Admin {
@@ -32,6 +33,7 @@ const FIELD_LABELS: Record<string, string> = {
   name: 'Full name',
   email: 'Email',
   password: 'Password',
+  currentPassword: 'Current password',
   code: 'Code',
 };
 

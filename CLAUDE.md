@@ -1,6 +1,6 @@
 # Moneystrait frontend
 
-The website at `moneystrait.com` for Halvern LLC, trading as Moneystrait. It gets registered businesses to book a call. Every page leads to "Get your rate"; "Chat with us" is second. The backend is a separate repo, reached only through `/api/*`. This file stands alone.
+The website at `moneystrait.com` for Halvern LLC, trading as Moneystrait. It gets registered businesses to book a call. Every page leads to "Get your rate"; "Chat with us" is second. The backend is a separate repo, reached only through `/api/*`. A React Native + Expo app is planned, so keep business logic in the backend. This file stands alone.
 
 ## Stack
 
